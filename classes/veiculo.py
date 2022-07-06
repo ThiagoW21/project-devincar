@@ -1,14 +1,21 @@
 import uuid
+from tinydb import TinyDB
+
+
+# Reproduzindo código da documentação do tinyDB
+# https://tinydb.readthedocs.io/en/latest/getting-started.html
+
+db = TinyDB('db.json')
 
 
 class Veiculo:
-    def __init__(self, manufacturing_date, name, board, price, color):
+    def __init__(self, manufacturing_date, name, board, price, color, cpf_buyer=0):
         self.__chassi = str(uuid.uuid4())
         self.__manufacturing_date = manufacturing_date
         self.__name = name
         self.__board = board
         self.__price = price
-        self.__cpf_buyer = 0
+        self.__cpf_buyer = cpf_buyer
         self.__color = color
         self.__data_vehicle = {
             'Nome': name,
@@ -19,9 +26,6 @@ class Veiculo:
             'Data de fabricação': manufacturing_date,
             'Chassi': self.__chassi
         }
-
-    def sell_vehicle(self, vehicle):
-        pass
 
     @property
     def data_vehicle(self):
@@ -54,3 +58,6 @@ class Veiculo:
     @data_vehicle.getter
     def list_information(self):
         return self.__data_vehicle
+
+    def sell_vehicle(self):
+        db.insert(self.data_vehicle)
