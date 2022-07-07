@@ -64,3 +64,14 @@ class Veiculo:
             'data_de_fabricacao': self.__manufacturing_date,
             'chassi': self.__chassi
         })
+
+    @property
+    def cpf_comprador(self):
+        return self.__cpf_buyer
+
+    @cpf_comprador.setter
+    def cpf_comprador(self, cpf):
+        if len(cpf) == 11:
+            self.__cpf_buyer = cpf
+        else:
+            raise TypeError('CPF inválido.')
