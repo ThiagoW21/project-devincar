@@ -17,19 +17,18 @@ class Veiculo:
         self.__price = price
         self.__cpf_buyer = cpf_buyer
         self.__color = color
-        self.__data_vehicle = {
-            'Nome': name,
-            'Placa': board,
-            'Price': price,
-            'CPF comprador': self.__cpf_buyer,
-            'Cor': color,
-            'Data de fabricação': manufacturing_date,
-            'Chassi': self.__chassi
-        }
 
     @property
     def data_vehicle(self):
-        return self.__data_vehicle
+        return {
+            'Nome': self.__name,
+            'Placa': self.__board,
+            'Price': self.__price,
+            'CPF_comprador': self.__cpf_buyer,
+            'Cor': self.__color,
+            'Data de fabricação': self.__manufacturing_date,
+            'Chassi': self.__chassi
+        }
 
     @property
     def color(self):
@@ -49,15 +48,19 @@ class Veiculo:
 
     @price.setter
     def price(self, price):
-        if price > 100 and isinstance(price, float):
+        if price > 100:
             self.__price = price
 
         else:
             raise TypeError('Informe um valor real maior que 100.')
 
-    @data_vehicle.getter
-    def list_information(self):
-        return self.__data_vehicle
-
     def sell_vehicle(self):
-        db.insert(self.data_vehicle)
+        db.insert({
+            'nome': self.__name,
+            'placa': self.__board,
+            'price': self.__price,
+            'cpf_comprador': self.__cpf_buyer,
+            'cor': self.__color,
+            'data_de_fabricacao': self.__manufacturing_date,
+            'chassi': self.__chassi
+        })
