@@ -1,5 +1,6 @@
 import uuid
 from tinydb import TinyDB
+from abc import ABC, abstractmethod
 
 
 # Reproduzindo código da documentação do tinyDB
@@ -8,17 +9,18 @@ from tinydb import TinyDB
 db = TinyDB('db.json')
 
 
-class Veiculo:
-    def __init__(self, manufacturing_date, name, board, price, color, cpf_buyer=0):
+class Veiculo(ABC):
+    def __init__(self, manufacturing_date, name, board, price, color):
         self.__chassi = str(uuid.uuid4())
         self.__manufacturing_date = manufacturing_date
         self.__name = name
         self.__board = board
         self.__price = price
-        self.__cpf_buyer = cpf_buyer
+        self.__cpf_buyer = 0
         self.__color = color
 
     @property
+    @abstractmethod
     def data_vehicle(self):
         return {
             'Nome': self.__name,
