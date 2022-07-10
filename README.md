@@ -6,7 +6,7 @@
 Copie e cole este códigos em seu terminal em sequencia
 
 ```bash
-git@github.com:ThiagoW21/project-devincar.git
+git clone git@github.com:ThiagoW21/project-devincar.git
 
 cd project-devincar
 ```
