@@ -1,12 +1,5 @@
 import uuid
-from tinydb import TinyDB
 from abc import ABC, abstractmethod
-
-
-# Reproduzindo código da documentação do tinyDB
-# https://tinydb.readthedocs.io/en/latest/getting-started.html
-
-db = TinyDB('db.json')
 
 
 class Veiculo(ABC):
@@ -15,65 +8,62 @@ class Veiculo(ABC):
         self.__manufacturing_date = manufacturing_date
         self.__name = name
         self.__board = board
-        self.__price = price
-        self.__cpf_buyer = 0
-        self.__color = color
+        self._price = price
+        self._cpf_buyer = 0
+        self._color = color
+        self._sold = False
 
     @property
     @abstractmethod
     def data_vehicle(self):
         return {
-            'Nome': self.__name,
-            'Placa': self.__board,
-            'Price': self.__price,
-            'CPF_comprador': self.__cpf_buyer,
-            'Cor': self.__color,
-            'Data de fabricação': self.__manufacturing_date,
-            'Chassi': self.__chassi
+            'nome': self.__name,
+            'placa': self.__board,
+            'preco': self._price,
+            'cpf_comprador': self._cpf_buyer,
+            'cor': self._color,
+            'data_fabricacao': self.__manufacturing_date,
+            'chassi': self.__chassi,
+            'status': 'Vendido' if self._sold else 'Disponível',
         }
 
     @property
     def color(self):
-        return self.__color
+        return self._color
+
+    @property
+    def sold(self):
+        return self._sold
+
+    @sold.setter
+    def sold(self, value):
+        self._sold = value
 
     @property
     def price(self):
-        return self.__price
+        return self._price
 
     @color.setter
     def color(self, color):
-        if color and len(color) > 2:
-            self.__color = color
-
-        else:
-            raise TypeError('Informe uma cor válida.')
+        self._color = color
 
     @price.setter
     def price(self, price):
-        if price > 100:
-            self.__price = price
+        self._price = price
 
-        else:
-            raise TypeError('Informe um valor real maior que 100.')
-
+    @abstractmethod
     def sell_vehicle(self):
-        db.insert({
-            'nome': self.__name,
-            'placa': self.__board,
-            'price': self.__price,
-            'cpf_comprador': self.__cpf_buyer,
-            'cor': self.__color,
-            'data_de_fabricacao': self.__manufacturing_date,
-            'chassi': self.__chassi
-        })
+        pass
 
     @property
-    def cpf_comprador(self):
-        return self.__cpf_buyer
+    def cpf_buyer(self):
+        return self._cpf_buyer
 
-    @cpf_comprador.setter
-    def cpf_comprador(self, cpf):
-        if len(cpf) == 11:
-            self.__cpf_buyer = cpf
-        else:
-            raise TypeError('CPF inválido.')
+    @cpf_buyer.setter
+    def cpf_buyer(self, cpf):
+        self._cpf_buyer = cpf
+
+    @sold.setter
+    def sold(self, value):
+        self._sold = value
+

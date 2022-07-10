@@ -1,7 +1,15 @@
 from classes.veiculo import Veiculo
+from tinydb import TinyDB
+from datetime import date
+
+today = date.today().strftime("%d/%m/%Y")
+# Reproduzindo código da documentação do tinyDB
+# https://tinydb.readthedocs.io/en/latest/getting-started.html
+
+db = TinyDB('db.json')
 
 
-class Caminhonete(Veiculo):
+class Camionete(Veiculo):
     def __init__(self, manufacturing_date, name, board,
                  price, potency, fuel_type,  total_doors, capacity):
 
@@ -16,7 +24,17 @@ class Caminhonete(Veiculo):
         return {
             **super().data_vehicle,
             'Portas': self.__total_doors,
-            'Rodas': self.__fuel_type,
             'Potencia': self.__potency,
-            'Combustivel': self.__fuel_type
+            'Combustivel': self.__fuel_type,
         }
+
+    def sell_vehicle(self):
+        self.sold = True
+
+        db.insert({
+            **super().data_vehicle,
+            'Portas': self.__total_doors,
+            'Potencia': self.__potency,
+            'Combustivel': self.__fuel_type,
+            'data_compra': today
+        })
